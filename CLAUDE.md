@@ -135,3 +135,53 @@ HP用イラスト：
 Xshop関連の制作物を作るときは、必ずこのデザインシステムを前提にしてください。
 
 提案時は、色・余白・見出し・CTA・トーンがXshop Design Systemに合っているか確認してください。
+## Logo Assets
+
+以下のロゴ画像を、Xshop Design Systemの公式ロゴアセットとして扱ってください。
+
+- `assets/logo/xshop-shift-logo.png`
+  - Xshopシフト用ロゴ
+  - シフト管理、LINEシフト提出、複数店舗管理、人件費管理の文脈で使用
+
+- `assets/logo/xshop-kintai-logo.png`
+  - Xshop勤怠用ロゴ
+  - 勤怠管理、労働時間管理、時給計算、給与計算連携の文脈で使用
+
+- `assets/logo/loityx-ticket-logo.png`
+  - ロイティXチケット用ロゴ
+  - デジタルチケット、イベント、QR認証、地域活性化、花火大会、まちなかバルの文脈で使用
+
+- `assets/logo/loityx-logo.png`
+  - ロイティX用ロゴ
+  - 地域店舗、地域イベント、一般ユーザー向けアプリ、関係人口創出の文脈で使用
+
+- `assets/logo/ai-support-logo.png`
+  - AI導入支援用ロゴ
+  - 企業向けAI活用支援、業務効率化、AI研修、AI導入サポートの文脈で使用
+
+- `assets/logo/xshop-bai-agent-logo.png`
+  - XshopBAIエージェント用ロゴ
+  - AIエージェント、店舗データ分析、経営意思決定支援、売上分析の文脈で使用
+
+- `assets/logo/xshop-symbol-mark.png`
+  - Xshop共通シンボルマーク
+  - Xshop全体のブランドマークとして使用
+
+- `assets/logo/xshop-symbol-mark-wide.png`
+  - 横長配置用のXshopシンボルマーク
+  - ヘッダー、表紙、横長バナーなどで使用
+
+- `assets/logo/xshop-symbol-mark-small.png`
+  - 小サイズ表示用のXshopシンボルマーク
+  - アイコン、フッター、小さなロゴ表示で使用
+
+## Logo Usage Rules
+
+- ロゴの縦横比は変更しない
+- ロゴの色は変更しない
+- ロゴに影、光彩、グラデーションなどの装飾を追加しない
+- ロゴ周囲には十分な余白を確保する
+- 背景が暗い場合は、視認性を確認して使用する
+- サービスごとの資料・LP・提案書では、該当サービスのロゴを優先して使用する
+- 複数サービスを並べる場合は、ロゴサイズを揃える
+- Xshop全体を表す場合は、`xshop-symbol-mark.png` または `xshop-symbol-mark-wide.png` を使用する
