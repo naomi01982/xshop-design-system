@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Xshop Design System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    /* --- Brand tokens --- */
+    --navy:#003D99;
+    --navy-deep:#002B6B;
+    --blue:#1A6FD4;
+    --red:#E22B13;
+    --yellow:#FFE000;
+    --line:#06C755;
+    --bg-blue:#E8F4FB;
+    --paper:#F4F6FA;
+    --card:#FFFFFF;
+    --line-gray:#E2E7EF;
+    --ink:#1C2430;
+    --ink-soft:#5A6472;
+    --check:#7CB342;
+
+    --sp-1:4px; --sp-2:8px; --sp-3:16px; --sp-4:24px; --sp-5:32px; --sp-6:48px; --sp-7:64px;
+    --radius:14px;
+    --shadow:0 2px 4px rgba(0,43,107,.04),0 12px 32px rgba(0,43,107,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Noto Sans JP",sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1080px;margin:0 auto;padding:0 var(--sp-4)}
+
+  /* Heart logo mark (pure CSS/SVG) */
+  .mark{width:34px;height:34px;flex:none}
+
+  /* ---- Header ---- */
+  header{
+    background:
+      radial-gradient(1200px 400px at 85% -10%, rgba(26,111,212,.35), transparent 60%),
+      linear-gradient(135deg,var(--navy) 0%, var(--navy-deep) 100%);
+    color:#fff;padding:var(--sp-7) 0 var(--sp-6);
+  }
+  .brandline{display:flex;align-items:center;gap:12px;margin-bottom:var(--sp-5)}
+  .brandline .name{font-weight:800;letter-spacing:.02em;font-size:20px}
+  .brandline .name b{color:#fff}
+  header h1{font-size:clamp(30px,5vw,52px);font-weight:900;letter-spacing:.01em;line-height:1.15}
+  header h1 .em{color:#fff;position:relative}
+  header h1 .em::after{content:"";position:absolute;left:0;right:0;bottom:.08em;height:.22em;background:var(--red);z-index:-1;opacity:.9}
+  header p{margin-top:var(--sp-3);max-width:640px;color:#CBE0F5;font-size:16px}
+  .meta{display:flex;gap:var(--sp-5);flex-wrap:wrap;margin-top:var(--sp-5);font-size:13px;color:#9EC2E8}
+  .meta b{color:#fff;display:block;font-size:15px;font-weight:700}
+
+  /* ---- Section scaffold ---- */
+  section{padding:var(--sp-7) 0}
+  section + section{border-top:1px solid var(--line-gray)}
+  .eyebrow{display:flex;align-items:baseline;gap:12px;margin-bottom:var(--sp-4)}
+  .eyebrow .num{font-family:"Inter",sans-serif;font-weight:800;color:var(--red);font-size:14px;letter-spacing:.12em}
+  .eyebrow h2{font-size:26px;font-weight:900;letter-spacing:.01em}
+  .eyebrow .sub{color:var(--ink-soft);font-size:13px;margin-left:auto;text-align:right;max-width:44%}
+  .lead{color:var(--ink-soft);margin-bottom:var(--sp-5);max-width:720px}
+
+  /* ---- Color ---- */
+  .swatches{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:var(--sp-3)}
+  .sw{border:1px solid var(--line-gray);border-radius:var(--radius);overflow:hidden;background:var(--card)}
+  .sw .chip{height:88px;display:flex;align-items:flex-end;padding:10px;color:#fff;font-size:12px;font-weight:700}
+  .sw .body{padding:12px 14px}
+  .sw .role{font-weight:700;font-size:14px}
+  .sw .hex{font-family:"Inter",monospace;color:var(--ink-soft);font-size:12px;margin-top:2px;letter-spacing:.02em}
+  .sw .use{font-size:11.5px;color:var(--ink-soft);margin-top:6px;line-height:1.5}
+  .ratio{display:flex;height:44px;border-radius:10px;overflow:hidden;margin-top:var(--sp-4);border:1px solid var(--line-gray);font-size:12px;font-weight:700}
+  .ratio span{display:flex;align-items:center;justify-content:center;color:#fff}
+
+  /* ---- Type ---- */
+  .type-row{display:flex;align-items:baseline;gap:20px;padding:14px 0;border-bottom:1px dashed var(--line-gray);flex-wrap:wrap}
+  .type-row .tag{font-family:"Inter",monospace;font-size:11px;color:var(--red);width:150px;flex:none;letter-spacing:.06em}
+  .t-h1{font-size:40px;font-weight:900}
+  .t-h2{font-size:28px;font-weight:900}
+  .t-h3{font-size:20px;font-weight:700}
+  .t-body{font-size:16px;font-weight:400}
+  .t-cap{font-size:12px;font-weight:500;color:var(--ink-soft)}
+  .t-en{font-family:"Inter",sans-serif;font-size:15px;font-weight:600;letter-spacing:.14em}
+
+  /* ---- Component grid ---- */
+  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:var(--sp-4)}
+  .panel{background:var(--card);border:1px solid var(--line-gray);border-radius:var(--radius);padding:var(--sp-4);box-shadow:var(--shadow)}
+  .panel h4{font-size:13px;color:var(--ink-soft);font-weight:700;margin-bottom:var(--sp-3);letter-spacing:.04em;text-transform:uppercase;font-family:"Inter",sans-serif}
+  .stack{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+  .row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+  .btn{font-family:inherit;font-weight:700;font-size:15px;border:none;border-radius:10px;padding:12px 22px;cursor:pointer;transition:transform .12s ease, box-shadow .12s ease}
+  .btn:hover{transform:translateY(-1px)}
+  .btn-primary{background:var(--navy);color:#fff;box-shadow:0 6px 16px rgba(0,61,153,.25)}
+  .btn-red{background:var(--red);color:#fff;box-shadow:0 6px 16px rgba(226,43,19,.25)}
+  .btn-ghost{background:#fff;color:var(--navy);border:1.5px solid var(--navy)}
+  .btn-line{background:var(--line);color:#fff}
+
+  /* badges */
+  .badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px}
+  .badge-navy{background:var(--navy);color:#fff}
+  .badge-red{background:#FDECE9;color:var(--red);border:1px solid #F6C6BE}
+  .badge-cnt{background:#EEF2F8;color:var(--ink-soft);border:1px solid var(--line-gray)}
+  .laurel{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;width:104px;height:104px;border-radius:50%;
+    background:radial-gradient(circle at 50% 35%,#FFF9E3,#FDEFC0);border:2px solid #E9C64B;color:#8a6d12;text-align:center;line-height:1.25;font-size:11px;font-weight:700}
+  .laurel b{color:var(--red);font-size:18px;display:block}
+
+  /* tab highlight */
+  .tab-hi{display:inline-block;background:var(--yellow);color:var(--navy-deep);font-weight:900;font-size:18px;padding:8px 20px;border-radius:8px;transform:skewX(-3deg)}
+
+  /* checklist */
+  .check{display:flex;align-items:flex-start;gap:10px;font-weight:500}
+  .check svg{flex:none;margin-top:3px}
+
+  /* table */
+  table{width:100%;border-collapse:collapse;font-size:14px;border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+  thead th{background:var(--navy);color:#fff;text-align:left;padding:12px 16px;font-weight:700}
+  tbody td{padding:12px 16px;border-bottom:1px solid var(--line-gray)}
+  tbody tr:nth-child(even){background:var(--bg-blue)}
+  code{font-family:"Inter",monospace;font-size:12.5px;background:#EEF2F8;padding:2px 6px;border-radius:5px;color:var(--navy);letter-spacing:.02em}
+
+  /* spacing scale */
+  .space-demo{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-top:var(--sp-3)}
+  .space-demo .b{background:var(--blue);border-radius:4px;opacity:.9}
+  .space-demo .u{text-align:center;font-size:11px;color:var(--ink-soft);font-family:"Inter",monospace}
+
+  /* tone */
+  .tone{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:var(--sp-4)}
+  .tone .card{background:var(--card);border:1px solid var(--line-gray);border-left:4px solid var(--red);border-radius:12px;padding:var(--sp-4)}
+  .tone h5{font-weight:900;font-size:16px;margin-bottom:6px}
+  .tone .do{color:var(--check);font-weight:700}
+  .tone .dont{color:var(--red);font-weight:700}
+
+  /* color-discipline rule bar */
+  .rulebar{background:#fff;border:1px solid var(--line-gray);border-left:4px solid var(--navy);border-radius:12px;padding:14px 18px;margin-bottom:var(--sp-4);font-size:14px;color:var(--ink-soft);line-height:1.7}
+  .rulebar b{color:var(--ink);font-weight:900}
+  .chip-red,.chip-yel,.chip-line{font-weight:700;padding:1px 8px;border-radius:6px;font-size:12.5px}
+  .chip-red{background:#FDECE9;color:var(--red)}
+  .chip-yel{background:#FFF7B0;color:#7a5c00}
+  .chip-line{background:#E3F8EC;color:#0a8a3d}
+  .limit{background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:8px;vertical-align:middle;letter-spacing:.02em}
+  .panel-note{font-size:12px;color:var(--ink-soft);margin-top:12px;padding-top:10px;border-top:1px dashed var(--line-gray)}
+
+  /* illustration notes */
+  .note-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--sp-4)}
+  .note{background:var(--bg-blue);border-radius:var(--radius);padding:var(--sp-4);display:flex;flex-direction:column}
+  .note .ill-tag{font-family:"Inter",sans-serif;font-size:11px;font-weight:800;letter-spacing:.1em;color:var(--red);margin-bottom:4px}
+  .note h5{font-weight:800;margin-bottom:10px;color:var(--navy)}
+  .note ul{margin-left:18px;font-size:13.5px;color:var(--ink-soft)}
+  .note li{margin:4px 0}
+  .note li b{color:var(--ink)}
+  .ill-demo{background:#fff;border:1px solid var(--line-gray);border-radius:10px;min-height:120px;display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:12px}
+  .ill-icons svg{background:#F7F9FC;border-radius:8px;padding:4px}
+  .photo-ph{width:100%;height:104px;margin:8px;border-radius:8px;border:1.5px dashed #B7C2D2;background:linear-gradient(135deg,#EEF3F9,#DDE7F2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#5A6472;font-family:"Inter",sans-serif;font-size:10px;font-weight:700;letter-spacing:.1em}
+
+  footer{background:var(--navy-deep);color:#9EC2E8;padding:var(--sp-6) 0;font-size:13px}
+  footer .wrap{display:flex;justify-content:space-between;gap:var(--sp-4);flex-wrap:wrap;align-items:center}
+  footer b{color:#fff}
+
+  @media (max-width:600px){
+    .eyebrow .sub{display:none}
+    .type-row .tag{width:100%}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<!-- Heart mark reusable SVG -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="heart" viewBox="0 0 40 40">
+    <path d="M20 14 C20 7 12 5 8 9 C4 13 6 20 20 30 C34 20 36 13 32 9 C28 5 20 7 20 14 Z" fill="#E22B13"/>
+    <circle cx="12" cy="28" r="7" fill="#003D99"/>
+    <circle cx="28" cy="28" r="7" fill="#003D99"/>
+  </symbol>
+</svg>
+
+<header>
+  <div class="wrap">
+    <div class="brandline">
+      <svg class="mark"><use href="#heart"/></svg>
+      <span class="name"><b>Xshop</b> Design System</span>
+    </div>
+    <h1>現場の<span class="em">リアル</span>を、<br>ひと目で伝わる形に。</h1>
+    <p>飲食・サービス業の現場目線と、利益にコミットする実直さ。Xshopの全ての制作物が同じ人格で語るための、色・文字・部品の共通ルールです。</p>
+    <div class="meta">
+      <div><b>ネイビー × レッド</b>コアカラー</div>
+      <div><b>Noto Sans JP</b>ベース書体</div>
+      <div><b>8pxグリッド</b>余白基準</div>
+      <div><b>結論先行</b>トーン原則</div>
+    </div>
+  </div>
+</header>
+
+<!-- 01 COLOR -->
+<section id="color">
+  <div class="wrap">
+    <div class="eyebrow">
+      <span class="num">01</span><h2>カラー</h2>
+      <span class="sub">確定版トークン（実ロゴのコードがあれば差し替え）</span>
+    </div>
+    <p class="lead">ネイビーで骨格を作り、レッドは強調1点に絞る。イエロー・グリーンは役割が決まった箇所のみ使用します。</p>
+
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#003D99">Primary</div><div class="body"><div class="role">ネイビー</div><div class="hex">#003D99</div><div class="use">見出し・帯・CTA・骨格</div></div></div>
+      <div class="sw"><div class="chip" style="background:#002B6B">Primary Deep</div><div class="body"><div class="role">ディープネイビー</div><div class="hex">#002B6B</div><div class="use">フッター・濃い面</div></div></div>
+      <div class="sw"><div class="chip" style="background:#1A6FD4">Secondary</div><div class="body"><div class="role">ブルー</div><div class="hex">#1A6FD4</div><div class="use">サブ見出し・リンク・図版</div></div></div>
+      <div class="sw"><div class="chip" style="background:#E22B13">Accent</div><div class="body"><div class="role">レッド</div><div class="hex">#E22B13</div><div class="use">ロゴ・最重要強調・特許</div></div></div>
+      <div class="sw"><div class="chip" style="background:#FFE000;color:#5a4a00">Highlight</div><div class="body"><div class="role">イエロー</div><div class="hex">#FFE000</div><div class="use">タブ見出し・限定訴求</div></div></div>
+      <div class="sw"><div class="chip" style="background:#06C755">LINE</div><div class="body"><div class="role">LINEグリーン</div><div class="hex">#06C755</div><div class="use">LINE連携の文脈のみ</div></div></div>
+      <div class="sw"><div class="chip" style="background:#E8F4FB;color:#2a5a8a">BG Light</div><div class="body"><div class="role">ライトブルー</div><div class="hex">#E8F4FB</div><div class="use">セクション背景・囲み</div></div></div>
+      <div class="sw"><div class="chip" style="background:#1C2430">Ink</div><div class="body"><div class="role">インク</div><div class="hex">#1C2430</div><div class="use">本文・見出し文字</div></div></div>
+    </div>
+
+    <p class="lead" style="margin-top:var(--sp-5);margin-bottom:8px;font-weight:700;color:var(--ink)">使用比率の目安（60 / 30 / 10）</p>
+    <div class="ratio">
+      <span style="width:60%;background:#EDF2F8;color:#2a5a8a">60% 白・ライトブルー</span>
+      <span style="width:30%;background:var(--navy)">30% ネイビー</span>
+      <span style="width:10%;background:var(--red)">10%</span>
+    </div>
+
+    <p class="lead" style="margin-top:var(--sp-5);margin-bottom:8px;font-weight:700;color:var(--ink)">確定トークン一覧（コピー用）</p>
+    <table>
+      <thead><tr><th>トークン</th><th>HEX</th><th>薄／濃（tint）</th><th>上に載せる文字色</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td><b>navy</b></td><td><code>#003D99</code></td><td><code>#E6EEF9</code> / <code>#002B6B</code></td><td>白</td><td>見出し・帯・CTA</td></tr>
+        <tr><td><b>blue</b></td><td><code>#1A6FD4</code></td><td><code>#E8F1FC</code> / <code>#114E9A</code></td><td>白</td><td>サブ見出し・リンク・図版</td></tr>
+        <tr><td><b>red</b> <span class="badge badge-red" style="padding:1px 7px">確定</span></td><td><code>#E22B13</code></td><td><code>#FDECE9</code> / <code>#B21F0C</code></td><td>白</td><td>最重要強調・ロゴ・特許</td></tr>
+        <tr><td><b>yellow</b></td><td><code>#FFE000</code></td><td><code>#FFF7B0</code> / <code>#E6C900</code></td><td>ネイビー(#002B6B)</td><td>章見出しラベルのみ</td></tr>
+        <tr><td><b>line</b> <span class="badge badge-red" style="padding:1px 7px">確定</span></td><td><code>#06C755</code></td><td><code>#E3F8EC</code> / <code>#059B43</code></td><td>白</td><td>LINE連携の文脈のみ</td></tr>
+        <tr><td><b>ink</b></td><td><code>#1C2430</code></td><td><code>#5A6472</code>(soft)</td><td>—</td><td>本文・見出し文字</td></tr>
+        <tr><td><b>bg-light</b></td><td><code>#E8F4FB</code></td><td>—</td><td>ink(#1C2430)</td><td>セクション背景・囲み</td></tr>
+        <tr><td><b>line-gray</b></td><td><code>#E2E7EF</code></td><td>—</td><td>—</td><td>罫線・カード境界</td></tr>
+      </tbody>
+    </table>
+    <p class="panel-note" style="border:none;padding-top:8px">
+      アクセシビリティ：navy／blue／red／line は白文字でWCAG AA（4.5:1）以上を確保。<b>イエロー地には必ず濃ネイビー文字</b>（白文字は不可）。本文グレーは #5A6472 まで（それより薄い文字色は使わない）。
+    </p>
+  </div>
+</section>
+
+<!-- 02 TYPOGRAPHY -->
+<section id="type">
+  <div class="wrap">
+    <div class="eyebrow"><span class="num">02</span><h2>タイポグラフィ</h2><span class="sub">和文=Noto Sans JP / 欧文=Inter</span></div>
+    <p class="lead">太めのゴシックで力強さを、欧文は字間を広げて信頼感を出す。ウェイトは4段階に固定します。</p>
+
+    <div class="type-row"><span class="tag">H1 / 40・900</span><span class="t-h1">勘を、科学に変える</span></div>
+    <div class="type-row"><span class="tag">H2 / 28・900</span><span class="t-h2">主な機能一覧</span></div>
+    <div class="type-row"><span class="tag">H3 / 20・700</span><span class="t-h3">LINEでシフト提出・共有</span></div>
+    <div class="type-row"><span class="tag">Body / 16・400</span><span class="t-body">使い慣れたLINE画面から、直感的な操作で希望シフトを提出できます。</span></div>
+    <div class="type-row"><span class="tag">Caption / 12・500</span><span class="t-cap">※法定より手前で制限を掛けることも可能です</span></div>
+    <div class="type-row"><span class="tag">EN Label / 15・600</span><span class="t-en">COMPANY PROFILE</span></div>
+  </div>
+</section>
+
+<!-- 03 LOGO -->
+<section id="logo">
+  <div class="wrap">
+    <div class="eyebrow"><span class="num">03</span><h2>ロゴ</h2><span class="sub">シンボル＝ハート（レッド＋ネイビー）</span></div>
+    <div class="grid2">
+      <div class="panel">
+        <h4>正しい使い方</h4>
+        <div class="stack">
+          <div class="row"><svg class="mark" style="width:42px;height:42px"><use href="#heart"/></svg><span style="font-weight:900;font-size:24px">Xshop</span></div>
+          <div class="check"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#7CB342" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>周囲にシンボル高さ分の余白を確保</span></div>
+          <div class="check"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#7CB342" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>最小サイズはシンボル24px以上</span></div>
+          <div class="check"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5" stroke="#7CB342" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>白/ネイビー背景の2版を用意</span></div>
+        </div>
+      </div>
+      <div class="panel">
+        <h4>禁止事項</h4>
+        <div class="stack">
+          <div class="check"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#E22B13" stroke-width="3" fill="none" stroke-linecap="round"/></svg><span>縦横比の変形・回転</span></div>
+          <div class="check"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#E22B13" stroke-width="3" fill="none" stroke-linecap="round"/></svg><span>指定外の色への変更</span></div>
+          <div class="check"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#E22B13" stroke-width="3" fill="none" stroke-linecap="round"/></svg><span>影・光彩などの効果付け</span></div>
+          <div class="check"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="#E22B13" stroke-width="3" fill="none" stroke-linecap="round"/></svg><span>ロゴ名称の表記揺れ（要統一）</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 COMPONENTS -->
+<section id="components">
+  <div class="wrap">
+    <div class="eyebrow"><span class="num">04</span><h2>コンポーネント</h2><span class="sub">資料・LP・スライド共通の再利用パーツ</span></div>
+    <div class="rulebar">
+      <b>色は「足し算」ではなく「引き算」。</b>
+      1画面の基本はネイビー＋グレー＋白。<span class="chip-red">レッド</span>は最重要1点、<span class="chip-yel">イエロー</span>はセクション見出しに1〜2回、<span class="chip-line">LINE緑</span>はLINE連携の文脈のみ。装飾目的では使いません。
+    </div>
+    <div class="grid2">
+
+      <div class="panel">
+        <h4>ボタン</h4>
+        <div class="row">
+          <button class="btn btn-primary">資料請求する</button>
+          <button class="btn btn-red">無料デモを予約</button>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <button class="btn btn-ghost">機能を見る</button>
+          <button class="btn btn-line">LINEで相談</button>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h4>タブ見出し（黄色帯）<span class="limit">限定使用</span></h4>
+        <div class="stack">
+          <span class="tab-hi">導入の流れ</span>
+          <span class="tab-hi">費用</span>
+        </div>
+        <p class="panel-note">章の見出しラベルだけに使用。本文の強調や飾りには使わない。</p>
+      </div>
+
+      <div class="panel">
+        <h4>バッジ</h4>
+        <div class="row" style="margin-bottom:14px">
+          <span class="badge badge-navy">多店舗飲食</span>
+          <span class="badge badge-cnt">スタッフ2,534名</span>
+          <span class="badge badge-red">特許出願中</span>
+        </div>
+        <div class="row">
+          <span class="laurel"><span>特許出願中</span></span>
+          <span class="laurel"><b>NO.1</b><span>33年の実績<br>FC店215店舗中</span></span>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h4>チェックリスト</h4>
+        <div class="stack">
+          <div class="check"><svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#7CB342"/><path d="M17 8l-6 7-3-3" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>現場と管理者、双方の負担軽減</span></div>
+          <div class="check"><svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#7CB342"/><path d="M17 8l-6 7-3-3" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>労基法に沿った自動ブロック</span></div>
+          <div class="check"><svg width="20" height="20" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="#7CB342"/><path d="M17 8l-6 7-3-3" stroke="#fff" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg><span>シフト提出率100％</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="panel" style="margin-top:var(--sp-4)">
+      <h4>テーブル（ネイビーヘッダー＋ゼブラ）</h4>
+      <table>
+        <thead><tr><th>フェーズ</th><th>アクション</th><th>アウトプット</th></tr></thead>
+        <tbody>
+          <tr><td>Step 01 ヒアリング</td><td>現状課題と目標を明確化</td><td>現状分析レポート</td></tr>
+          <tr><td>Step 02 PoC</td><td>特定店舗でのテスト導入</td><td>効果検証結果</td></tr>
+          <tr><td>Step 03 本格導入</td><td>全店展開・社内研修</td><td>DX化された環境</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- 05 SPACING & LAYOUT -->
+<section id="layout">
+  <div class="wrap">
+    <div class="eyebrow"><span class="num">05</span><h2>余白・レイアウト</h2><span class="sub">8pxベースのスペーシングスケール</span></div>
+    <p class="lead">全ての余白は8pxの倍数（4は補助）で揃える。定番のセクション順は「課題→解決→機能→効果→実績→CTA」。</p>
+    <div class="space-demo">
+      <div><div class="b" style="width:4px;height:4px"></div><div class="u">4</div></div>
+      <div><div class="b" style="width:8px;height:8px"></div><div class="u">8</div></div>
+      <div><div class="b" style="width:16px;height:16px"></div><div class="u">16</div></div>
+      <div><div class="b" style="width:24px;height:24px"></div><div class="u">24</div></div>
+      <div><div class="b" style="width:32px;height:32px"></div><div class="u">32</div></div>
+      <div><div class="b" style="width:48px;height:48px"></div><div class="u">48</div></div>
+      <div><div class="b" style="width:64px;height:64px"></div><div class="u">64</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 ILLUSTRATION -->
+<section id="visual">
+  <div class="wrap">
+    <div class="eyebrow"><span class="num">06</span><h2>アイコン・イラスト</h2><span class="sub">用途で3パターンを使い分け</span></div>
+    <p class="lead">アイソメトリックは今回のブランドでは使いません。HP＝顔のある淡色イラスト、資料＝簡易アイコン、実績・信頼＝高画質写真、と役割で明確に分けます。</p>
+    <div class="note-grid">
+
+      <div class="note">
+        <div class="ill-tag">Pattern 1</div>
+        <h5>HP用イラスト（顔あり・淡色）</h5>
+        <div class="ill-demo">
+          <svg width="120" height="110" viewBox="0 0 120 110" aria-label="顔のある人物イラスト例">
+            <!-- keep some areas white; only fill where color helps -->
+            <rect x="30" y="60" width="60" height="46" rx="8" fill="#fff"/>
+            <circle cx="60" cy="34" r="18" fill="#F2B48C" opacity="0.4"/>
+            <rect x="70" y="64" width="24" height="17" rx="2" fill="#FFE07A" opacity="0.5" transform="rotate(-8 82 72)"/>
+            <!-- lines: solid navy/ink -->
+            <rect x="30" y="60" width="60" height="46" rx="8" fill="none" stroke="#003D99" stroke-width="2.4"/>
+            <circle cx="60" cy="34" r="18" fill="none" stroke="#003D99" stroke-width="2.4"/>
+            <circle cx="54" cy="33" r="1.9" fill="#003D99"/><circle cx="66" cy="33" r="1.9" fill="#003D99"/>
+            <path d="M54 40 q6 5 12 0" stroke="#003D99" stroke-width="2" fill="none" stroke-linecap="round"/>
+            <path d="M44 52 h32" stroke="#E22B13" stroke-width="2.4" stroke-linecap="round"/>
+            <rect x="70" y="64" width="24" height="17" rx="2" fill="none" stroke="#003D99" stroke-width="2.2" transform="rotate(-8 82 72)"/>
+          </svg>
+        </div>
+        <ul>
+          <li>顔のある親しみやすい人物</li>
+          <li><b>線はしっかり</b>（ネイビー/インク）、<b>塗りだけ約80%透過の淡色</b></li>
+          <li>塗り色はブランド色に限定せず、<b>内容が伝わる淡い色でOK</b></li>
+          <li><b>白（塗りなし）も活用</b>。全面を色で塗らず、必要な所だけ差してシンプルに保つ</li>
+          <li>フラットで軽やか（立体・影なし）</li>
+          <li>参考：添付03／らくしふ的キャラクター</li>
+        </ul>
+      </div>
+
+      <div class="note">
+        <div class="ill-tag">Pattern 2</div>
+        <h5>簡易アイコン（内容が一目で分かる）</h5>
+        <div class="ill-demo ill-icons">
+          <svg width="40" height="40" viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="none" stroke="#1C2430" stroke-width="2"/><path d="M12 20l16-7-5 16-4-6-7-3z" fill="#1A6FD4" opacity="0.25"/><path d="M12 20l16-7-5 16-4-6-7-3z" fill="none" stroke="#1C2430" stroke-width="1.8" stroke-linejoin="round"/></svg>
+          <svg width="40" height="40" viewBox="0 0 40 40"><rect x="12" y="7" width="16" height="26" rx="3" fill="none" stroke="#1C2430" stroke-width="2"/><circle cx="20" cy="20" r="6.5" fill="#06C755"/><path d="M17.4 20l1.8 1.8 3.4-3.6" stroke="#fff" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <svg width="40" height="40" viewBox="0 0 40 40"><rect x="7" y="10" width="26" height="18" rx="2" fill="none" stroke="#1C2430" stroke-width="2"/><path d="M11 15h14M11 19h10" stroke="#1A6FD4" stroke-width="2" stroke-linecap="round"/><path d="M16 31h8" stroke="#1C2430" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <ul>
+          <li>シンプルな線アイコン（もっと簡素でOK）</li>
+          <li>機能・手順の説明用</li>
+          <li>線＝インク、必要な1色だけ淡く差す</li>
+          <li>参考：添付01</li>
+        </ul>
+      </div>
+
+      <div class="note">
+        <div class="ill-tag">Pattern 3</div>
+        <h5>写真（リアル・高画質）</h5>
+        <div class="ill-demo">
+          <div class="photo-ph">
+            <svg width="46" height="46" viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="14" rx="2" stroke="#5A6472" stroke-width="1.6"/><circle cx="9" cy="11" r="2.4" stroke="#5A6472" stroke-width="1.6"/><path d="M4 18l5-4 4 3 3-2 4 3" stroke="#5A6472" stroke-width="1.6" fill="none" stroke-linejoin="round"/></svg>
+            <span>HIGH-RES PHOTO</span>
+          </div>
+        </div>
+        <ul>
+          <li>実績・信頼・現場のリアリティを担保</li>
+          <li>飲食は暖色・湯気のあるライブ感</li>
+          <li>UI画面はライトブルー背景で浮かせる</li>
+          <li>解像度・ピント重視、粗い素材は使わない</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- 07 TONE -->
+<section id="tone">
+  <div class="wrap">
+    <div class="eyebrow"><span class="num">07</span><h2>トーン＆ボイス</h2><span class="sub">現場目線・結論先行・実直</span></div>
+    <div class="tone">
+      <div class="card"><h5>現場第一</h5><p>作り手ではなく使い手の言葉で語る。「勘を科学に」の実感を大切に。</p></div>
+      <div class="card"><h5>結論先行</h5><p class="do">◎ 「丸一日の作成が数時間に」</p><p class="dont">✕ 抽象的な機能羅列から入る</p></div>
+      <div class="card"><h5>利益にコミット</h5><p>キーワード＝利益の最大化 / 使われ続ける / 関係人口。</p></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div><b>Xshop株式会社</b> ／ 店舗DX・地域活性化ソリューション</div>
+    <div>担当：平賀 直実 ・ support@xshop.site ・ xshop-ai.com</div>
+  </div>
+</footer>
+
+</body>
+</html>
